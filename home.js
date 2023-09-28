@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 export function HomeScreen ({navigation}) {
-    
     const [message, setMessage] = useState('')
     const [alerts, setAlerts] = useState([])
+    
     const fetchData = async () => {
     const result = await
-    fetch('https://api.weather.gov/alerts/active?area=OH')
+    fetch('https://cpsc345sh.jayshaffstall.com/')
     if (result.ok){
     const data = await result.json()
     setMessage(data.title)
