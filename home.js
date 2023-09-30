@@ -1,37 +1,14 @@
-import { useState } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
-export function HomeScreen ({navigation}) {
-    const [message, setMessage] = useState('')
-    const [alerts, setAlerts] = useState([])
+export function HomeScreen ({route, navigation}) {
     
-    const fetchData = async () => {
-    const result = await
-    fetch('https://cpsc345sh.jayshaffstall.com/')
-    if (result.ok){
-    const data = await result.json()
-    setMessage(data.title)
-    setAlerts(data.features)
-    }
-    else{
-    setMessage("Error fetching data, status code: " + result.status)
-    }
-    }
-    
-    
+
+
 return (
 <View style={styles.container}>
-<Button title='See Hunts' onPress={() => navigation.navigate('Hunt')} />
-<Text>{message}</Text>
-<Text>{alerts.length}</Text>
-<Button title="Fetch Alerts" onPress={fetchData} />
-<ScrollView style={{width: '75%', height: '75%'}}>
-{
-alerts.map((value, index) => {
-return <Text key={index}>{value.properties.headline}</Text>
-})
-}
-</ScrollView>
+<Button title='Register' onPress={() => navigation.navigate('Register')} />
+<Button title= 'Login' onPress= {()  => navigation.navigate('Login')} />
+<Button title= 'Guest' onPress= {() =>navigation.navigate('HuntsPage')} />
 </View>
 )
 
