@@ -23,11 +23,11 @@ export default function App() {
     component = {Register}
     options={{title: "Register New User"}}
     />
-    {/* <Stack.Screen
+    <Stack.Screen
     name= "Login"
     component = {Login}
     options={{title: "Returning User Login"}}
-    /> */}
+    />
     <Stack.Screen
     name="HuntsPage"
     component={HuntsPage}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Alert } from 'react-native';
-
+import { styles } from './styles';
 export function Register ({route, navigation}) {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
@@ -61,24 +61,9 @@ export function Register ({route, navigation}) {
                 style={styles.input}
             />
             <Button title="Register" onPress={register} />
+            <Button title= "Already have an account"  onPress={() => navigation.navigate('Login')} ></Button>
             <Text>{message}</Text>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
-        padding: 8,
-        width: '80%',
-    },
-});
