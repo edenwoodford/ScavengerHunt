@@ -5,12 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
 export function Login() {
   const navigation = useNavigation();
-  const [username, setUsername] = useState('');
+  const [userId, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const login = async () => {
     let formData = new FormData();
-    formData.append('username', username);
+    formData.append('userid', userId);
     formData.append('password', password);
 
     try {
@@ -21,10 +21,10 @@ export function Login() {
       
       const data = await response.json();
       if (data.status === 'error') {
-        Alert.alert('Login Error', data.error.join(', '));
+        Alert.alert('Wrong username or password', data.error.join(', '));
       } else {
         await AsyncStorage.setItem('userToken', data.token);
-        navigation.replace('ScavengerHunt');
+        navigation.replace('HuntsPage');
       }
     } catch (error) {
       Alert.alert('Network Error', 'try again later');
@@ -37,7 +37,7 @@ export function Login() {
 <TextInput 
   placeholder="Username" 
   onChangeText={setUsername} 
-  value={username} 
+  value={userId} 
   style={styles.input}
     />
     <TextInput 

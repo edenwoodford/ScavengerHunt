@@ -6,13 +6,18 @@ import { HomeScreen } from './home.js';
 import { HuntsPage } from './hunts.js';
 import { Register } from './register.js';
 import { Login } from './login.js';
-
+import { SplashScreen } from './splashScreen.js';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
     <Stack.Navigator>
+    <Stack.Screen
+    name="Splash Screen"
+    component = {SplashScreen}
+    options={{title: 'Splash Screen'}}
+    />
     <Stack.Screen
     name="Home"
     component={HomeScreen}

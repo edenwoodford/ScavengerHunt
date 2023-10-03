@@ -6,7 +6,6 @@ export function Register ({route, navigation}) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [errors, setErrors] = useState([]);
 
     const register = async () => {
         if (password !== confirmPassword) {
@@ -21,8 +20,7 @@ export function Register ({route, navigation}) {
         try {
             const response = await fetch('https://cpsc345sh.jayshaffstall.com/register.php', {
                 method: 'POST',
-                body: formData,
-                headers: {'Content-Type': 'multipart/form-data',},
+                body: formData
             });
 
             const data = await response.json();
@@ -34,7 +32,8 @@ export function Register ({route, navigation}) {
                 navigation.navigate('HuntsPage');
             }
         } catch (error) {
-            Alert.alert('Network Error', 'Failed to register. Please try again later.');
+            console.error(error);
+            Alert.alert('Network Error', 'Failed to register.');
         }
     }
 
