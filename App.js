@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,10 +6,18 @@ import { HuntsPage } from './hunts.js';
 import { Register } from './register.js';
 import { Login } from './login.js';
 import { SplashScreen } from './splashScreen.js';
+import { store } from './store.js';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist'
+import { ActivityIndicator } from 'react-native';
+const persistor = persistStore(store)
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <Provider store= {store} >
+    <PersistGate loading={<ActivityIndicator/>} persistor={persistor}>
     <NavigationContainer>
     <Stack.Navigator>
     <Stack.Screen
@@ -40,6 +47,9 @@ export default function App() {
     />
     </Stack.Navigator>
     </NavigationContainer>
+    </PersistGate>
+    </Provider>
+    
   );
 }
 
