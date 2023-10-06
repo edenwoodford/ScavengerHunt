@@ -23,7 +23,6 @@ export default function App() {
     <Stack.Screen
     name="Splash Screen"
     component = {SplashScreen}
-    options={{title: 'Splash Screen'}}
     />
     <Stack.Screen
     name="Home"

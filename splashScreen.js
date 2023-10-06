@@ -17,7 +17,6 @@ export function SplashScreen() {
         }
         const formData = new FormData();
         formData.append('token', token);
-        
         const response = await fetch('https://cpsc345sh.jayshaffstall.com/verifyToken.php', {
           method: 'POST',
           body: formData,
@@ -41,10 +40,13 @@ export function SplashScreen() {
   }, [navigation]);
 
   return (
-    <View >
-      <Text> This is the Splash Screen (eventually logo)</Text>
-      <Image> </Image>
+    <View style={{flex: 1}}>
+      <Image 
+        source={require('./assets/template.jpg')} 
+        style={{flex: 1, width: null, resizeMode: 'cover'}} 
+      />
     </View>
-  );
+  );  
 }
 //do in useEffect
+//set timeout to show the splash screen if it goes too fast
