@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux'; 
+import { setUserData } from './storeSlice';
 import { styles } from './styles';
+
 export function Login() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const [userId, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,6 +29,7 @@ export function Login() {
         Alert.alert('Wrong username or password', data.error.join(', '));
       } else {
         await AsyncStorage.setItem('userToken', data.token);
+        dispatch(setUserData({ token: data.token, userId: userId }));
         navigation.replace('HuntsPage');
       }
     } catch (error) {
@@ -31,22 +37,21 @@ export function Login() {
     }
   };
 
-
   return (
     <View style = {styles.container}>
-<TextInput 
-  placeholder="Username" 
-  onChangeText={setUsername} 
-  value={userId} 
-  style={styles.input}
-    />
-    <TextInput 
-    placeholder="Password" 
-    secureTextEntry={true}
-    onChangeText={setPassword} 
-    value={password} 
-    style={styles.input}
-    />
+      <TextInput 
+        placeholder="Username" 
+        onChangeText={setUsername} 
+        value={userId} 
+        style={styles.input}
+      />
+      <TextInput 
+        placeholder="Password" 
+        secureTextEntry={true}
+        onChangeText={setPassword} 
+        value={password} 
+        style={styles.input}
+      />
       <Button title="Login" onPress={login} />
       <Button title= "Don't have an account?"  onPress={() => navigation.navigate('Register')} ></Button>
     </View>

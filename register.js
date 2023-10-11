@@ -25,7 +25,6 @@ export function Register ({route, navigation}) {
 
             const data = await response.json();
             if (data.status === 'error') {
-                setErrors(data.error);
                 Alert.alert('Registration Error', data.error.join(', '));
             } else {
                 setMessage('Registration successful!');
