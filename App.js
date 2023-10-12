@@ -6,6 +6,7 @@ import { HuntsPage } from './hunts.js';
 import { Register } from './register.js';
 import { Login } from './login.js';
 import { SplashScreen } from './splashScreen.js';
+import { HuntDetail } from './huntDetail.js';
 import { store } from './store.js';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
@@ -44,6 +45,11 @@ export default function App() {
     component={HuntsPage}
     options={{title: 'Hunt Page'}}
     />
+     <Stack.Screen
+    name="HuntDetail"
+    component={HuntDetail}
+    options={{title: 'Hunt Detail'}}
+     />
     </Stack.Navigator>
     </NavigationContainer>
     </PersistGate>
