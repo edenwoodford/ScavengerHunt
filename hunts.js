@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, View, Text, TextInput, Alert } from 'react-native';
+import { Button, View, Text, TextInput, Alert,FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,13 @@ export function HuntsPage() {
   const [hunts, setHunts] = useState([]);
   const userToken = useSelector((state) => state.user.token);
   const navigation = useNavigation();
-
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('userToken');
+    navigation.reset({ 
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+  };
   const fetchHunts = async () => {
     try {
       const formData = new FormData();
@@ -76,6 +82,7 @@ export function HuntsPage() {
         value={huntName}
         onChangeText={setHuntName} />
       <Button title="Add Hunt" onPress={addHunt} />
+      <Button title="Logout" onPress={handleLogout} />
       <FlatList
         data={hunts}
         keyExtractor={(hunt) => hunt.huntid.toString()}
