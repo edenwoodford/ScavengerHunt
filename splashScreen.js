@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 
 export function SplashScreen() {
   const navigation = useNavigation();
-
   useEffect(() => {
     setTimeout(async () => {
     const checkToken = async () => {
@@ -21,8 +20,6 @@ export function SplashScreen() {
           method: 'POST',
           body: formData,
         });
-        
-
         const data = await response.json();
         if (data.status === 'error') {
           navigation.replace('Login');
@@ -48,5 +45,3 @@ export function SplashScreen() {
     </View>
   );  
 }
-//do in useEffect
-//set timeout to show the splash screen if it goes too fast
