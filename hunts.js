@@ -26,7 +26,7 @@ export function HuntsPage() {
         body: formData,
       });
       const data = await response.json();
-      if (data.status === 'error') {
+      if (data.status == 'error') {
         Alert.alert('Error', data.error.join(', '));
         return;
       }
@@ -53,7 +53,7 @@ export function HuntsPage() {
       });
 
       const data = await response.json();
-      if (data.status === 'error') {
+      if (data.status == 'error') {
         Alert.alert('Error', data.error.join(', '));
         return;
       }

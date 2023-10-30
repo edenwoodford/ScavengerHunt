@@ -21,7 +21,7 @@ export function SplashScreen() {
           body: formData,
         });
         const data = await response.json();
-        if (data.status === 'error') {
+        if (data.status == 'error') {
           navigation.replace('Login');
         } else {
           navigation.replace('HuntsPage'); 

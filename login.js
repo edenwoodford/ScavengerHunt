@@ -25,7 +25,7 @@ export function Login() {
       });
       
       const data = await response.json();
-      if (data.status === 'error') {
+      if (data.status == 'error') {
         Alert.alert('Wrong username or password', data.error.join(', '));
       } else {
         await AsyncStorage.setItem('userToken', data.token);
