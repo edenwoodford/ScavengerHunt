@@ -4,10 +4,44 @@ import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager'
+
 //useFocusEffect use this anytime you navigate back to this page -steven
 export function HuntsPage() {
   const [huntName, setHuntName] = useState('');
   const [hunts, setHunts] = useState([]);
+    const [location, setLocation] = useState(null);
+    const [message, setMessage] = useState('Waiting...');
+    useEffect(() => {
+    (async () => {
+    let fg = await Location.requestForegroundPermissionsAsync();
+    if (fg.status !== 'granted') {
+    setMessage('Permission to access foreground location was denied');
+    return;``
+    }
+    let bg = await Location.requestBackgroundPermissionsAsync();
+    if (bg.status !== 'granted') {
+    setMessage('Permission to access background location was denied');
+    return;
+    }
+    setMessage("Ready for tracking")
+    return () => {
+    stopTracking()
+    }
+    })();
+    }, []);
+    const startTracking = async () => {
+      await Location.startLocationUpdatesAsync(taskName, {
+      accuracy: Location.Accuracy.Highest,
+      distanceInterval: 3,
+      });
+      }
+      const stopTracking = async () => {
+        let status = await TaskManager.isTaskRegisteredAsync(taskName)
+        if (status)
+        await Location.stopLocationUpdatesAsync(taskName)
+        }
   const userToken = useSelector((state) => state.user.token);
   const navigation = useNavigation();
   const handleLogout = async () => {
@@ -64,7 +98,6 @@ export function HuntsPage() {
       Alert.alert('Error', 'Error adding hunt');
     }
   };
-//need mroe error handling? eventually
   const detailButton = (huntId) => {
     navigation.navigate('HuntDetail', { id: huntId });
   };
@@ -77,6 +110,9 @@ export function HuntsPage() {
   );
   return (
     <View style={{ padding: 20 }}>
+    <Text>{message}</Text>
+    <Button title="Start" onPress={startTracking}/>
+    <Button title="Stop" onPress={stopTracking}/>
       <TextInput
         placeholder="Create hunt"
         value={huntName}

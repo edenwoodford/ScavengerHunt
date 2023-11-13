@@ -110,48 +110,55 @@ export function HuntDetail({ route, navigation }) {
           Alert.alert('Error', 'Error adding location');
       }
   };
-    return (
-      <View style={{padding: 20}}>
-        <TextInput
-          placeholder="Change hunt name here"
-          value={huntName}
-          onChangeText={setHuntName}/>
-        <Text> This is the hunts page!</Text>
-        <Button title="Save Changes" color= "green" onPress={updateHunt} />
-        <Button title="Delete Hunt" color="red" onPress={deleteHunt} />
-        <Text>Locations:</Text>
-        <FlatList
+  
+  const LocationDetail = (location) => {
+    navigation.navigate('LocationDetail', { location });
+  };
+  
+  return (
+    <View style={{padding: 20}}>
+      <TextInput
+        placeholder="Change hunt name here"
+        value={huntName}
+        onChangeText={setHuntName}/>
+      <Text> This is the hunts page!</Text>
+      <Button title="Save Changes" color="green" onPress={updateHunt} />
+      <Button title="Delete Hunt" color="red" onPress={deleteHunt} />
+      <Text>Locations:</Text>
+      <FlatList
         data={locations}
         keyExtractor={item => item.locationid.toString()}
         renderItem={({ item }) => (
-    <View>
-      <Text>Name: {item.name}</Text>
-      <Text>Clue: {item.clue}</Text>
-      <Text>Description: {item.description}</Text>
-      <Text>Position: {item.position}</Text>
-    </View>
-  )}
-/>
-<TextInput
-  placeholder="New Location Name"
-  value={location}
-  onChangeText={setLocation}/>
-<TextInput
-  placeholder="Clue"
-  value={clue}
-  onChangeText={setClue}
-/>
-<TextInput
-  placeholder="Description"
-  value={description}
-  onChangeText={setDescription}
-/>
+          <View>
+            <Text>Name: {item.name}</Text>
+            <Text>Clue: {item.clue}</Text>
+            <Text>Description: {item.description}</Text>
+            <Text>Position: {item.position}</Text>
+            <Button title="Edit Location" onPress={() => LocationDetail(item)} />
+          </View>
+        )}
+      />
+      <TextInput
+        placeholder="New Location Name"
+        value={location}
+        onChangeText={setLocation}/>
+      <TextInput
+        placeholder="Clue"
+        value={clue}
+        onChangeText={setClue}
+      />
+      <TextInput
+        placeholder="Description"
+        value={description}
+        onChangeText={setDescription}
+      />
       <Button title="Add Location" onPress={addLocation} />
       <Text>Make Hunt Active</Text>
       <Switch
         value={active}
         onValueChange={setActive}/>
-      </View>
-    );
-  }
+    </View>
+  );
+}
+  
   

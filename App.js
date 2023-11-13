@@ -7,6 +7,7 @@ import { Register } from './register.js';
 import { Login } from './login.js';
 import { SplashScreen } from './splashScreen.js';
 import { HuntDetail } from './huntDetail.js';
+import { LocationDetail } from './locationDetail.js';
 import { store } from './store.js';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
@@ -50,6 +51,11 @@ export default function App() {
     component={HuntDetail}
     options={{title: 'Hunt Detail'}}
      />
+     <Stack.Screen
+    name="LocationDetail"
+    component = {LocationDetail}
+    options={{title:'Location Detail'}}
+    />
     </Stack.Navigator>
     </NavigationContainer>
     </PersistGate>
