@@ -40,6 +40,7 @@ export function HuntDetail({ route, navigation }) {
       const formData = new FormData();
       formData.append('huntid', route.params.id);
       formData.append('name', huntName);
+      formData.append('active', active ? '1' : '0');
       formData.append('token', userToken);
       try {
         const response = await fetch('https://cpsc345sh.jayshaffstall.com/updateHunt.php', {
@@ -133,7 +134,6 @@ export function HuntDetail({ route, navigation }) {
             <Text>Name: {item.name}</Text>
             <Text>Clue: {item.clue}</Text>
             <Text>Description: {item.description}</Text>
-            <Text>Position: {item.position}</Text>
             <Button title="Edit Location" onPress={() => LocationDetail(item)} />
           </View>
         )}
@@ -155,8 +155,9 @@ export function HuntDetail({ route, navigation }) {
       <Button title="Add Location" onPress={addLocation} />
       <Text>Make Hunt Active</Text>
       <Switch
-        value={active}
-        onValueChange={setActive}/>
+        value={active} onValueChange={setActive}/>
+        <Button title="Save Changes" color="green" onPress={updateHunt} />
+
     </View>
   );
 }
