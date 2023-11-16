@@ -32,7 +32,7 @@ export function HuntDetail({ route, navigation }) {
 
     if (route.params) {
         setHuntName(route.params.name || '');
-        setActive(route.params.active === '1' ? true : false);
+        setActive(route.params.active == '1' ? true : false);
         fetchLocations();
     }
 }, [route.params, userToken]);
@@ -93,7 +93,7 @@ export function HuntDetail({ route, navigation }) {
               body: formData,
           });
           const data = await response.json();
-          if (data.status === 'success') {
+          if (data.status == 'success') {
               const newLocationObj = {
                   locationid: data.locationid,
                   name: location,
@@ -101,9 +101,7 @@ export function HuntDetail({ route, navigation }) {
                   description: description,
               };
               setLocations([...locations, newLocationObj]);
-              setLocation('');
-              setClue('');
-              setDescription('');
+              setLocation(''); setClue(''); setDescription('');
           } else {
               Alert.alert('Error', 'Failed to add location');
           }
@@ -142,16 +140,6 @@ export function HuntDetail({ route, navigation }) {
         placeholder="New Location Name"
         value={location}
         onChangeText={setLocation}/>
-      <TextInput
-        placeholder="Clue"
-        value={clue}
-        onChangeText={setClue}
-      />
-      <TextInput
-        placeholder="Description"
-        value={description}
-        onChangeText={setDescription}
-      />
       <Button title="Add Location" onPress={addLocation} />
       <Text>Make Hunt Active</Text>
       <Switch
@@ -161,5 +149,3 @@ export function HuntDetail({ route, navigation }) {
     </View>
   );
 }
-  
-  

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, Alert } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import { useSelector } from 'react-redux';
-
+//use geolocation?
 export function LocationDetail({ route, navigation }) {
   const [location, setLocation] = useState(route.params.location || {});
   const userToken = useSelector((state) => state.user.token);
@@ -81,6 +81,7 @@ export function LocationDetail({ route, navigation }) {
   };
 
   const setLocationPosition = async () => {
+    //using geolocation for now,
     Geolocation.getCurrentPosition(
       async (position) => {
         const formData = new FormData();
@@ -95,7 +96,7 @@ export function LocationDetail({ route, navigation }) {
             body: formData,
           });
           const data = await response.json();
-          if (data.status === 'success') {
+          if (data.status == 'success') {
             Alert.alert('Success', 'Location position set');
           } else {
             Alert.alert('Error', 'Failed to set location position');

@@ -9,7 +9,6 @@ import { styles } from './styles';
 export function Login() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
   const [userId, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
