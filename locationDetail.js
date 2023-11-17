@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, Alert } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+import * as Location from 'expo-location';
 import { useSelector } from 'react-redux';
-//use geolocation?
+
 export function LocationDetail({ route, navigation }) {
   const [location, setLocation] = useState(route.params.location || {});
   const userToken = useSelector((state) => state.user.token);
-  
+
   useEffect(() => {
     if (!location.name) {
       fetchLocationDetails();
@@ -79,36 +79,35 @@ export function LocationDetail({ route, navigation }) {
       Alert.alert('Error', 'Error deleting location');
     }
   };
-
   const setLocationPosition = async () => {
-    //using geolocation for now,
-    Geolocation.getCurrentPosition(
-      async (position) => {
-        const formData = new FormData();
-        formData.append('locationid', location.locationid);
-        formData.append('token', userToken);
-        formData.append('latitude', position.coords.latitude.toString());
-        formData.append('longitude', position.coords.longitude.toString());
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Access to location is needed to set position.');
+      return;
+    }
 
-        try {
-          const response = await fetch('https://cpsc345sh.jayshaffstall.com/updateHuntLocationPosition.php', {
-            method: 'POST',
-            body: formData,
-          });
-          const data = await response.json();
-          if (data.status == 'success') {
-            Alert.alert('Success', 'Location position set');
-          } else {
-            Alert.alert('Error', 'Failed to set location position');
-          }
-        } catch (error) {
-          Alert.alert('Error', 'Error setting location position');
+    let { coords } = await Location.getCurrentPositionAsync({});
+    const formData = new FormData();
+    formData.append('locationid', location.locationid);
+    formData.append('token', userToken);
+    formData.append('latitude', coords.latitude.toString());
+    formData.append('longitude', coords.longitude.toString());
+    try {
+        const response = await fetch('https://cpsc345sh.jayshaffstall.com/updateHuntLocationPosition.php', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.json();
+        if (data.status == 'success') {
+          Alert.alert('Success', 'position set');
+        } else {
+          Alert.alert('Error', 'failed to set position');
         }
-      },
-      (error) => Alert.alert('Error', 'Failed to get current position'),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
+      } catch (error) {
+        Alert.alert('Error', 'error setting position');
   };
+
+}
 
   return (
     <View style={{ padding: 20 }}>
