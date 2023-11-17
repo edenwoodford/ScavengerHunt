@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import { useSelector } from 'react-redux';
 
 export function LocationDetail({ route, navigation }) {
+  const [successMessage, setSuccessMessage] = useState('');
   const [location, setLocation] = useState(route.params.location || {});
   const userToken = useSelector((state) => state.user.token);
 
@@ -85,8 +86,13 @@ export function LocationDetail({ route, navigation }) {
       Alert.alert('Permission Denied', 'Access to location is needed to set position.');
       return;
     }
-
+  
     let { coords } = await Location.getCurrentPositionAsync({});
+    setLocation((prevLocation) => ({
+      ...prevLocation,
+      latitude: coords.latitude,
+      longitude: coords.longitude
+    }));
     const formData = new FormData();
     formData.append('locationid', location.locationid);
     formData.append('token', userToken);
@@ -99,26 +105,29 @@ export function LocationDetail({ route, navigation }) {
         });
         const data = await response.json();
         if (data.status == 'success') {
-          Alert.alert('Success', 'position set');
+          setSuccessMessage(`Position set to Latitude: ${coords.latitude}, Longitude: ${coords.longitude}`);
         } else {
-          Alert.alert('Error', 'failed to set position');
+          Alert.alert('Error', 'Failed to set position');
         }
       } catch (error) {
-        Alert.alert('Error', 'error setting position');
-  };
-
-}
-
+        Alert.alert('Error', 'Error setting position');
+    };
+  }
   return (
-    <View style={{ padding: 20 }}>
+    <View>
       <TextInput
         placeholder="Location Name"
         value={location.name}
         onChangeText={(text) => setLocation({ ...location, name: text })}
       />
+      <View>
+      {successMessage !== '' && (
+        <Text style={{ color: 'green', marginTop: 10 }}>{successMessage}</Text>
+      )}
       <Button title="Update Location" color="green" onPress={updateLocation} />
       <Button title="Delete Location" color="red" onPress={deleteLocation} />
       <Button title="Set Location Position" onPress={setLocationPosition} />
+      </View>
     </View>
   );
 }
