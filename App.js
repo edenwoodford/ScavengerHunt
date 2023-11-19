@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist'
 import { ActivityIndicator } from 'react-native';
+import { FindHunts } from './findHunts.js';
+import { ActiveHunts } from './activeHunts.js';
 const persistor = persistStore(store)
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +32,16 @@ export default function App() {
     name="Home"
     component={HomeScreen}
     options={{title: 'Home Page'}}
+    />
+    <Stack.Screen
+    name="Search for Hunts"
+    component ={FindHunts}
+    options= {{title: 'Search for Hunts'}}
+    />
+    <Stack.Screen
+    name= "ActiveHunts"
+    component={ActiveHunts}
+    options={{title: 'Find Active Hunts'}}
     />
     <Stack.Screen
     name= "Register"
