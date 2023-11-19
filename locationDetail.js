@@ -87,7 +87,7 @@ export function LocationDetail({ route, navigation }) {
       return;
     }
   
-    let { coords } = await Location.getCurrentPositionAsync({});
+    let {coords} = await Location.getCurrentPositionAsync({});
     setLocation((prevLocation) => ({
       ...prevLocation,
       latitude: coords.latitude,
@@ -115,18 +115,31 @@ export function LocationDetail({ route, navigation }) {
   }
   return (
     <View>
+      <Text>Location Name: {location.name}</Text>
+      <Text>Location Clue: {location.clue}</Text>
+      <Text>Location Description: {location.description}</Text>
       <TextInput
-        placeholder="Location Name"
+        placeholder="Edit Location Name"
         value={location.name}
         onChangeText={(text) => setLocation({ ...location, name: text })}
       />
+      <TextInput
+        placeholder="Edit Location Clue"
+        value={location.clue}
+        onChangeText={(text) => setLocation({ ...location, clue: text })}
+      />
+      <TextInput
+        placeholder="Edit Location Description"
+        value={location.description}
+        onChangeText={(text) => setLocation({ ...location, description: text })}
+      />
       <View>
-      {successMessage !== '' && (
-        <Text style={{ color: 'green', marginTop: 10 }}>{successMessage}</Text>
-      )}
-      <Button title="Update Location" color="green" onPress={updateLocation} />
-      <Button title="Delete Location" color="red" onPress={deleteLocation} />
-      <Button title="Set Location Position" onPress={setLocationPosition} />
+        {successMessage !== '' && (
+          <Text style={{ color: 'green', marginTop: 10 }}>{successMessage}</Text>
+        )}
+        <Button title="Update Location" color="green" onPress={updateLocation} />
+        <Button title="Delete Location" color="red" onPress={deleteLocation} />
+        <Button title="Set Location Position" onPress={setLocationPosition} />
       </View>
     </View>
   );

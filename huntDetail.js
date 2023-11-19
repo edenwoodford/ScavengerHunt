@@ -5,8 +5,6 @@ import { useSelector } from 'react-redux';
 export function HuntDetail({ route, navigation }) {
   const [huntName, setHuntName] = useState('');
   const [locations, setLocations] = useState([]);
-  const [clue, setClue] = useState('');
-  const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [active, setActive] = useState(false);
   const userToken = useSelector((state) => state.user.token);
@@ -85,30 +83,23 @@ export function HuntDetail({ route, navigation }) {
       formData.append('huntid', route.params?.id);
       formData.append('token', userToken);
       formData.append('name', location);
-      formData.append('clue', clue);
-      formData.append('description', description);
       try {
-          const response = await fetch('https://cpsc345sh.jayshaffstall.com/addHuntLocation.php', {
-              method: 'POST',
-              body: formData,
-          });
-          const data = await response.json();
-          if (data.status == 'success') {
-              const newLocationObj = {
-                  locationid: data.locationid,
-                  name: location,
-                  clue: clue,
-                  description: description,
-              };
-              setLocations([...locations, newLocationObj]);
-              setLocation(''); setClue(''); setDescription('');
-          } else {
-              Alert.alert('Error', 'Failed to add location');
-          }
+        const response = await fetch('https://cpsc345sh.jayshaffstall.com/addHuntLocation.php', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.json();
+        if (data.status == 'success') {
+          const newLocationObj = { locationid: data.locationid, name: location };
+          setLocations([...locations, newLocationObj]);
+          setLocation('');
+        } else {
+          Alert.alert('Error', 'Failed to add location');
+        }
       } catch (error) {
-          Alert.alert('Error', 'Error adding location');
+        Alert.alert('Error', 'Error adding location');
       }
-  };
+    };
   
   const LocationDetail = (location) => {
     navigation.navigate('LocationDetail', { location });
@@ -130,8 +121,6 @@ export function HuntDetail({ route, navigation }) {
         renderItem={({ item }) => (
           <View>
             <Text>Name: {item.name}</Text>
-            <Text>Clue: {item.clue}</Text>
-            <Text>Description: {item.description}</Text>
             <Button title="Edit Location" onPress={() => LocationDetail(item)} />
           </View>
         )}

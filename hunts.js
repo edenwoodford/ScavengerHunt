@@ -108,11 +108,15 @@ export function HuntsPage() {
       return () => {};
     }, [])
   );
+  const goHome = () => {
+    navigation.navigate('Home');
+  };
   return (
     <View style={{ padding: 20 }}>
     <Text>{message}</Text>
     <Button title="Start" onPress={startTracking}/>
     <Button title="Stop" onPress={stopTracking}/>
+    <Button title="Go Home" onPress={goHome} />
       <TextInput
         placeholder="Create hunt"
         value={huntName}
