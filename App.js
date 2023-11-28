@@ -8,6 +8,7 @@ import { Login } from './login.js';
 import { SplashScreen } from './splashScreen.js';
 import { HuntDetail } from './huntDetail.js';
 import { LocationDetail } from './locationDetail.js';
+import { DoHunts } from './visitingHunts.js';
 import { store } from './store.js';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
@@ -42,6 +43,11 @@ export default function App() {
     name= "ActiveHunts"
     component={ActiveHunts}
     options={{title: 'Find Active Hunts'}}
+    />
+    <Stack.Screen
+    name ="DoHunts"
+    component = {DoHunts}
+    options={{title: "Let's play a game"}}
     />
     <Stack.Screen
     name= "Register"

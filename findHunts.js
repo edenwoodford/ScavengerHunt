@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, Button, FlatList } from 'react-native';
+import { View, TextInput, Text, Button, FlatList, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 
 export function FindHunts({ navigation }) {
@@ -30,6 +30,28 @@ export function FindHunts({ navigation }) {
     fetchHunts();
   }, [searchFilter, userToken]);
 
+  const startHunt = async (huntId) => {
+    const formData = new FormData();
+    formData.append('token', userToken);
+    formData.append('huntid', huntId);
+
+    try {
+      const response = await fetch('https://cpsc345sh.jayshaffstall.com/startHunt.php', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.status == 'success') {
+        Alert.alert('Success', 'Hunt started!');
+      } else {
+        Alert.alert('Error', 'Failed to start...');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <View style={{ padding: 20 }}>
       <TextInput
@@ -39,7 +61,7 @@ export function FindHunts({ navigation }) {
       />
       <FlatList
         data={hunts}
-        keyExtractor={item => item.huntid.toString()}
+        keyExtractor={(item) => item.huntid.toString()}
         renderItem={({ item }) => (
           <View>
             <Text>Name: {item.name}</Text>
@@ -48,6 +70,9 @@ export function FindHunts({ navigation }) {
               title="View Hunt"
               onPress={() => navigation.navigate('HuntDetail', { huntId: item.huntid })}
             />
+            {!item.completed && (
+              <Button title="Start Hunt" onPress={() => startHunt(item.huntid)}/>
+            )}
           </View>
         )}
       />

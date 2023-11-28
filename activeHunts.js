@@ -28,23 +28,63 @@ export function ActiveHunts() {
 
     fetchActiveHunts();
   }, [userToken]);
-
-  const viewHuntDetails = (huntId) => {
-    navigation.navigate('HuntDetail', { huntId });
+  const abandonHunt = async (huntId) => {
+    try {
+      const formData = new FormData();
+      formData.append('token', userToken);
+      formData.append('huntid', huntId);
+      const response = await fetch('https://cpsc345sh.jayshaffstall.com/abandonHunt.php', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.status === 'success') {
+        Alert.alert('Success', 'hunt abandoned');
+      } else {
+        Alert.alert('Error', 'could not abandon this scavenger hunt');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'could not abandon scavenger hunt');
+    }
+  };
+  const viewThisHunt = async (huntId) => {
+    try {
+      const formData = new FormData();
+      formData.append('token', userToken);
+      formData.append('huntid', huntId);
+  
+      const response = await fetch('https://cpsc345sh.jayshaffstall.com/getAvailableLocations.php', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      console.log('Response:', response);
+      console.log('Data:', data);
+  
+      if (data.status === 'okay') {
+        console.log('Data Hunt:', data.hunt);
+        navigation.navigate('DoHunts', { huntId, huntDetails: data});
+      } else {
+        Alert.alert('Error', 'No/failed to get locations');
+      }
+    } catch (error) {
+      console.error('Error to see', error);
+      Alert.alert('Error', 'no locations to show');
+    }
   };
 
   return (
     <View style={{ padding: 20 }}>
       <FlatList
         data={activeHunts}
-        keyExtractor={item => item.huntid.toString()}
+        keyExtractor={(item) => item.huntid.toString()}
         renderItem={({ item }) => (
-          <View style={{ paddingVertical: 10 }}>
-            <Text>{item.name} - Completion: {item.completed}%</Text>
-            <Button title="View Details" onPress={() => viewHuntDetails(item.huntid)} />
-          </View>
-        )}
-      />
+        <View style={{ paddingVertical: 10 }}>
+          <Text>{item.name} - Hunt Completion: {item.completed}%</Text>
+          <Button title="View Details" onPress={() => viewThisHunt(item.huntid)} />
+          <Button title="Abandon Hunt" onPress={() => abandonHunt(item.huntid)} />
+        </View>
+      )}  />
     </View>
   );
 }
