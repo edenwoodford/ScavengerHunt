@@ -66,10 +66,7 @@ export function FindHunts({ navigation }) {
           <View>
             <Text>Name: {item.name}</Text>
             <Text>Completion: {item.completed ? `${item.completed}%` : 'Not started'}</Text>
-            <Button
-              title="View Hunt"
-              onPress={() => navigation.navigate('HuntDetail', { huntId: item.huntid })}
-            />
+            <Button title="View Hunt" onPress={() => navigation.navigate('HuntDetail', { huntId: item.huntid })}/>
             {!item.completed && (
               <Button title="Start Hunt" onPress={() => startHunt(item.huntid)}/>
             )}

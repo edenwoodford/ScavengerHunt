@@ -7,8 +7,8 @@ export function DoHunts({ route, navigation }) {
   useEffect(() => {
     setLocations(huntDetails.locations);
   }, [huntDetails]);
-
-  const checkInL = async (locationId) => {
+  
+  const checkIn = async (locationId) => {
   //logic to check in and assist user in getting closer at some point
   //locationid
     Alert.alert('Check In', `Checked in at location ${locationId}`);

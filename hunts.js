@@ -118,7 +118,6 @@ export function HuntsPage() {
     <Button title="Start" onPress={startTracking}/>
     <Button title="Stop" onPress={stopTracking}/>
     <Button title="Go Home" onPress={goHome} />
-      <Button title="Add Hunt" onPress={addHunt} />
       <Button title="Logout" onPress={handleLogout} />
       <Button title="Find Hunts" onPress={() => {
        navigation.navigate('Search for Hunts');}}/>
@@ -127,6 +126,7 @@ export function HuntsPage() {
         placeholder="Create hunt"
         value={huntName}
         onChangeText={setHuntName} />
+      <Button title="Add Hunt" onPress={addHunt} />
       <FlatList
         data={hunts}
         keyExtractor={(hunt) => hunt.huntid.toString()}

@@ -47,7 +47,7 @@ export default function App() {
     <Stack.Screen
     name ="DoHunts"
     component = {DoHunts}
-    options={{title: "Let's play a game"}}
+    options={{title: "Let's Play a Game"}}
     />
     <Stack.Screen
     name= "Register"
