@@ -10,7 +10,6 @@ export function ActiveHunts() {
 
   useEffect(() => {
     const fetchActiveHunts = async () => {
-      try {
         const formData = new FormData();
         formData.append('token', userToken);
         const response = await fetch('https://cpsc345sh.jayshaffstall.com/findActiveHunts.php', {
@@ -21,15 +20,11 @@ export function ActiveHunts() {
         if (data.hunts) {
           setActiveHunts(data.hunts);
         }
-      } catch (error) {
-        Alert.alert('Error', 'Error fetching active hunts');
-      }
     };
 
     fetchActiveHunts();
   }, [userToken]);
   const abandonHunt = async (huntId) => {
-    try {
       const formData = new FormData();
       formData.append('token', userToken);
       formData.append('huntid', huntId);
@@ -43,12 +38,8 @@ export function ActiveHunts() {
       } else {
         Alert.alert('Error', 'could not abandon this scavenger hunt');
       }
-    } catch (error) {
-      Alert.alert('Error', 'could not abandon scavenger hunt');
-    }
   };
   const viewThisHunt = async (huntId) => {
-    try {
       const formData = new FormData();
       formData.append('token', userToken);
       formData.append('huntid', huntId);
@@ -67,10 +58,6 @@ export function ActiveHunts() {
       } else {
         Alert.alert('Error', 'No/failed to get locations');
       }
-    } catch (error) {
-      console.error('Error to see', error);
-      Alert.alert('Error', 'no locations to show');
-    }
   };
 
   return (

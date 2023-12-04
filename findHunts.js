@@ -12,8 +12,6 @@ export function FindHunts({ navigation }) {
       const formData = new FormData();
       formData.append('token', userToken);
       formData.append('search', searchFilter);
-
-      try {
         const response = await fetch('https://cpsc345sh.jayshaffstall.com/findHunts.php', {
           method: 'POST',
           body: formData,
@@ -22,9 +20,6 @@ export function FindHunts({ navigation }) {
         if (data.hunts) {
           setHunts(data.hunts);
         }
-      } catch (error) {
-        console.error('Error fetching hunts:', error);
-      }
     };
 
     fetchHunts();
@@ -45,7 +40,7 @@ export function FindHunts({ navigation }) {
       if (data.status == 'success') {
         Alert.alert('Success', 'Hunt started!');
       } else {
-        Alert.alert('Error', 'Failed to start...');
+        Alert.alert('Error', 'Failed');
       }
     } catch (error) {
       console.error('Error:', error);
